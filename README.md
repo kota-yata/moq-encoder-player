@@ -92,6 +92,11 @@ const muxerSenderConfig = {
     }
 ```
 
+Video tracks now support sending each frame using datagrams.  Set
+`moqTracks["video"].moqMapping = MOQ_MAPPING_OBJECT_PER_DATAGRAM` to enable this
+mode (the default continues to use streams per GOP).  Be aware that frames
+larger than the QUIC datagram size will be dropped.
+
 ### src_encoder/index.html
 
 Main encoder webpage and also glues all encoder pieces together

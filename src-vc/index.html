@@ -742,24 +742,25 @@ LICENSE file in the root directory of this source tree.
         const optionObjStream = document.createElement('option');
         optionObjStream.value = MOQ_MAPPING_SUBGROUP_PER_GROUP;
         if (moqMappingSelected == MOQ_MAPPING_SUBGROUP_PER_GROUP || moqMappingSelected == undefined) {
-            optionObjStream.selected = true;        
+            optionObjStream.selected = true;
         }
         if (mediaType === "video") {
             optionObjStream.appendChild(document.createTextNode("Subgroup per GOP (AKA: GOP per stream)"));
-            selectElement.appendChild(optionObjStream);
         } else if (mediaType === "audio") {
             optionObjStream.appendChild(document.createTextNode("Subgroup per frame"));
-            selectElement.appendChild(optionObjStream);
-            // This protection is because usually IFrames are bigger than a datagram, and allowing to use datagram in video would mean dropping almost all Iframes
-            // Stream per datagram
-            const optionObjTrack = document.createElement('option');
-            optionObjTrack.value = MOQ_MAPPING_OBJECT_PER_DATAGRAM;
-            if (moqMappingSelected == MOQ_MAPPING_OBJECT_PER_DATAGRAM) {
-                optionObjStream.selected = true;        
-            }
-            optionObjTrack.appendChild(document.createTextNode("Object per datagram (AKA: Frame per datagram)"));
-            selectElement.appendChild(optionObjTrack);
+        } else {
+            optionObjStream.appendChild(document.createTextNode("Subgroup per object"));
         }
+        selectElement.appendChild(optionObjStream);
+
+        // Stream per datagram
+        const optionObjTrack = document.createElement('option');
+        optionObjTrack.value = MOQ_MAPPING_OBJECT_PER_DATAGRAM;
+        if (moqMappingSelected == MOQ_MAPPING_OBJECT_PER_DATAGRAM) {
+            optionObjTrack.selected = true;
+        }
+        optionObjTrack.appendChild(document.createTextNode("Object per datagram (AKA: Frame per datagram)"));
+        selectElement.appendChild(optionObjTrack);
     }
 
     function encoderProcessWorkerMessage(e) {
